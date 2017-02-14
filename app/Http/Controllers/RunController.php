@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Batsman;
 use Illuminate\Support\Facades\Input;
 use App\Over;
+use App\Player;
+use App\Bowlerrecord;
+use App\Batsmenrecord;
+use App\Bowler;
+use App\Commentary;
 
 class RunController extends Controller
 {
@@ -64,23 +69,35 @@ class RunController extends Controller
         
     }
 
-    public function addRun(Request $request){
+
+    
+
+    public function addRun(Request $request,$mid,$inngs){
         $isOver = false;
         $batsman = new Batsman;
         $over = new Over;
-        $striker = $batsman->where('onStrike',1)->get()->first();
-        $inactive = $batsman->where('onStrike',0)->where('isActive',1)->get()->first();
+        $striker = $batsman->where('match_id',$mid)->where('innings',$inngs)->where('onStrike',1)->get()->first();
+        $inactive = $batsman->where('match_id',$mid)->where('innings',$inngs)->where('onStrike',0)->where('isActive',1)->get()->first();
         
         /*
             * Evaluate the over data
             * This records go to overs table
         */
 
-        $overs = $over -> where('match_id',1)->where('innings','1st')->where('overflag',1)->get()->first();
-        // At the above line we assume the match_id is 1 and this is first innings
-        //N.B. This line must be changed later.
+        $overs = $over -> where('match_id',$mid)->where('innings',$inngs)->where('overflag',1)->get()->first();
+        $currentBowler  = Bowler::where('match_id',$mid)->where('innings',$inngs)->where('onStrike',1)->get()->first();
 
 
+        $bowlers = Bowlerrecord::where('cap',$currentBowler->cap)->get()->first();
+        $commentary = new Commentary;
+        $overnumber = Bowler::where('match_id',$mid)->where('innings',$inngs)->get()->sum('over');
+        $ballnumber = Bowler::where('match_id',$mid)->where('innings',$inngs)->where('onStrike',1)->get()->first()->ball;
+        $ballnumber +=1;
+        if($ballnumber>=6){
+            $overnumber +=1;
+            $ballnumber = 0;
+        }
+        $totalOver = $overnumber.'.'.$ballnumber;
 
 
   /*
@@ -118,6 +135,32 @@ class RunController extends Controller
 
 
 
+            if(Input::get('extra') || Input::get('lb')){
+
+            }else{
+
+                //generate commentary here
+                //addCommentary($run);
+                //generate commentary here
+                $commentary->match_id = $mid;
+                $commentary->innings = $inngs;
+                $commentary->over = $totalOver;
+                $commentary->run = $run;
+                $commentary->commentary = $bowlers->player. ' to '. $striker->name;
+                $commentary->save();
+
+
+
+                //calculate the point of a batsman get
+                $pp = $run * (1/36);
+                $bonus = map($bowlers->value * $run,0,60,0,(1/36));
+                $FR = $pp + $bonus;
+                $striker->rating += $FR;
+                $striker->save();
+
+            }
+
+
 
         if(Input::get('extra') == 'wide'){
             $overs->bowlerextra += 1;
@@ -125,6 +168,28 @@ class RunController extends Controller
             $overs->runs += $run+1;
             $overs->thisover .= 'wd+'.$run.',';
             $overs->save();
+
+            //generate commentary here
+            //addCommentary('wd+'.$run);
+            //generate commentary here
+                $commentary->match_id = $mid;
+                $commentary->innings = $inngs;
+                $commentary->over = $totalOver;
+                $commentary->run = 'wd+'+$run;
+                $commentary->commentary = $bowlers->player. ' to '. $striker->name;
+                $commentary->save();
+            
+            $currentBowler->run += $run + 1;
+            $currentBowler->extra += $run + 1;
+            if($run == 4){
+                $currentBowler->fours += 1;
+            }elseif($run == 6){
+                $currentBowler->sixs += 1;
+            }
+            $currentBowler->economy = $currentBowler->run / (float)($currentBowler->over.".".$currentBowler->ball);
+            $currentBowler->save();
+
+
         }elseif(Input::get('extra') == 'noball'){
             /*
                 * check if the run comes from by or legby or from bat
@@ -133,11 +198,30 @@ class RunController extends Controller
             */
 
             if(Input::get('lb') == 'lb'){
-                $overs->runs += $run + 1;
+                $overs->runs += $run + 1;   //
                 $overs->bowlerextra += 1;
                 $overs->overextra += $run;
-                $overs->thisover .= 'nb+'.$run.',';
+                $overs->thisover .= 'nb+'.$run.'l/b,';
                 $overs->save();
+
+
+                //generate commentary here
+               // addCommentary('nb+'.$run.'l/b');
+                //generate commentary here
+                $commentary->match_id = $mid;
+                $commentary->innings = $inngs;
+                $commentary->over = $totalOver;
+                $commentary->run = 'nb+'.$run.'l/b';
+                $commentary->commentary = $bowlers->player. ' to '. $striker->name;
+                $commentary->save();
+
+
+                // add bowler sate here
+                $currentBowler->run += 1;
+                $currentBowler->extra += $run+1;
+                $currentBowler->economy = $currentBowler->run / (float)($currentBowler->over.".".$currentBowler->ball);
+                $currentBowler->save();
+
             }else{
                 //Check if the run is even then add the run and the strike is not rotate.
        
@@ -166,6 +250,27 @@ class RunController extends Controller
                 $overs->bowlerextra += 1;
                 $overs->overextra += $run;
                 $overs->thisover .= 'nb+'.$run.',';
+
+                //generate commentary here
+               //addCommentary('nb+'.$run);
+                //generate commentary here
+                $commentary->match_id = $mid;
+                $commentary->innings = $inngs;
+                $commentary->over = $totalOver;
+                $commentary->run = 'nb+'+$run;
+                $commentary->commentary = $bowlers->player. ' to '. $striker->name;
+                $commentary->save();
+
+
+                $currentBowler->run += $run + 1;
+                $currentBowler->extra += 1;
+                if($run == 4){
+                    $currentBowler->fours += 1;
+                }elseif($run == 6){
+                    $currentBowler->sixs += 1;
+                }
+                $currentBowler->economy = $currentBowler->run / (float)($currentBowler->over.".".$currentBowler->ball);
+                $currentBowler->save();
                 
                 $overs->save();
                 $striker->save();
@@ -181,11 +286,40 @@ class RunController extends Controller
             */
 
             if(Input::get('lb')){
+
+
+                $currentBowler->extra += $run;
+                $currentBowler->ball +=1;
+               
+                if($currentBowler->ball >= 6){
+                    $currentBowler->ball = 0;
+                    $currentBowler->over += 1;
+                    $currentBowler->onStrike = 0;
+                }
+                $currentBowler->economy = $currentBowler->run / (float)($currentBowler->over.".".$currentBowler->ball);
+                $currentBowler->save();
+
+
                 $overs->runs += $run;
                 $overs->overextra += $run;
                 $overs->balls += 1;
                 $overs->thisover .= ''.$run.'l/b'.',';
-                
+                $striker->ball += 1;
+                $striker->onStrike = false;
+                $inactive->onStrike = true;
+                $srate = ($striker->run / $striker->ball)*100;
+                $striker->sr = $srate;
+                $striker->save();
+                $inactive->save();
+
+                //generate commentary here
+                //generate commentary here
+                $commentary->match_id = $mid;
+                $commentary->innings = $inngs;
+                $commentary->over = $totalOver;
+                $commentary->run = $run;
+                $commentary->commentary = $bowlers->player. ' to '. $striker->name;
+                $commentary->save();
 
                 if($overs->balls >= 6){
                     $overs->balls = 0;
@@ -203,6 +337,8 @@ class RunController extends Controller
                     $newovers->overextra = 0;
                     $newovers->bowlerextra = 0;
                     $newovers->save();
+                    $currentBowler->onStrike = 0;
+                    $currentBowler->save();
                     
                 }
                 $overs->save();
@@ -239,6 +375,8 @@ class RunController extends Controller
                         $newovers->overextra = 0;
                         $newovers->bowlerextra = 0;
                         $newovers->save();
+                        $currentBowler->onStrike = 0;
+                        $currentBowler->save();
                  
                     }
                 }else{
@@ -258,6 +396,8 @@ class RunController extends Controller
                             $newovers->overextra = 0;
                             $newovers->bowlerextra = 0;
                             $newovers->save();
+                            $currentBowler->onStrike = 0;
+                            $currentBowler->save();
                      
                         }else{
                             $striker->onStrike = false;
@@ -276,8 +416,32 @@ class RunController extends Controller
                 
                 }
 
+                $currentBowler->run += $run;
+                $currentBowler->ball +=1;
+                if($run == 4){
+                    $currentBowler->fours += 1;
+                }elseif($run == 6){
+                    $currentBowler->sixs += 1;
+                }
 
+                
+                
+                if($currentBowler->ball >= 6){
+                    $currentBowler->ball = 0;
+                    $currentBowler->over += 1;
+                    $currentBowler->onStrike = 0;
+                }
+                $currentBowler->economy = $currentBowler->run / (float)($currentBowler->over.".".$currentBowler->ball);
+                
+                $currentBowler->save();
 
+                //generate commentary here
+                $commentary->match_id = $mid;
+                $commentary->innings = $inngs;
+                $commentary->over = $totalOver;
+                $commentary->run = $run;
+                $commentary->commentary = $bowlers->player. ' to '. $striker->name;
+                $commentary->save();
 
               
 
@@ -289,7 +453,31 @@ class RunController extends Controller
             }
         }
     }
-        return redirect()->back();
+       return redirect()->back();
+      // return $pp;
+      //  return $bowlers;
+    }
+
+
+
+
+
+    public function clearAll($mid,$inngs){
+        Batsman::where('match_id',$mid)->where('innings',$inngs)->truncate();
+        Bowler::where('match_id',$mid)->where('innings',$inngs)->truncate();
+        Over::where('match_id',$mid)->where('innings',$inngs)->truncate();
+        $over = new Over;
+        $over->match_id = $mid;
+        $over->innings = $inngs;
+        $over->runs = 0;
+        $over->balls = 0;
+        $over->overno = 0;
+        $over->overflag = 1;
+        $over->bowlerextra = 0;
+        $over->overextra = 0;
+        $over->save();
+        return redirect('/score-control');
+
     }
 
     /**

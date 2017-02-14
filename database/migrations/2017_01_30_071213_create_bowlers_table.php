@@ -19,6 +19,8 @@ class CreateBowlersTable extends Migration
             $table->string('name');
             $table->integer('run');
             $table->float('over');
+            $table->integer('maiden');
+            $table->integer('wicket');
             $table->float('economy');
             $table->integer('fours');
             $table->integer('sixs');

@@ -1,25 +1,69 @@
-#player{
-	width: 400px;
-}
-.runs{
-	width: 400px;
-}
-.btn-circle{
-	border-radius: 50%;
+#player {
+    width: 400px;
 }
 
-.score{
-	height: 80px;
-	background: black;
-	color: white;
-	width: 100%;
-	margin-top: 45px;
-	clear: both;
-	margin-left: -115px;
-	z-index: 9999;
-	
+.runs {
+    width: 400px;
 }
 
-.row-body{
-	margin-top: 200px;
+.btn-circle {
+    border-radius: 50%;
+}
+
+.score {
+    height: 80px;
+    background: black;
+    color: white;
+    width: 100%;
+    margin-top: 45px;
+    clear: both;
+    margin-left: -115px;
+    z-index: 9999;
+    background: #971010;
+    color: #FDF6F6;
+}
+
+.row-body {
+    margin-top: 200px;
+}
+
+#myModal,
+#batsmanModal,
+#outModal {
+    z-index: 9999;
+}
+
+.row-content {
+    margin-top: 100px;
+}
+
+html,
+body {
+    background: url('/images/background.jpg');
+    background-size: 100% 100%;
+
+
+}
+#myContainer{
+    background: rgba(255,255,255,0.9);
+}
+
+.mynav{
+    background: #c21500;
+    color: white;
+}
+
+#myJumbo {
+    #background: #c21500;
+  
+    color: white;
+    background: #B01151;
+    width: 100%;
+    font-style: bolder;
+    height: 200px;
+    margin-top: 52px;
+    margin-bottom: 40px;
+    padding: 40px;
+    margin-left: 2px;
+    clear: both;
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOverTable extends Migration
+class CreateCommentryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,13 @@ class CreateOverTable extends Migration
      */
     public function up()
     {
-        Schema::create('overs', function (Blueprint $table) {
+        Schema::create('commentaries', function (Blueprint $table) {
             $table->increments('id');
             $table->string('match_id');
-            $table->string('cap');
             $table->string('innings');
-            $table->integer('overno');
-            $table->string('thisover');
-            $table->integer('runs');
-            $table->integer('balls');
-            $table->boolean('overflag');
-            $table->integer('overextra');
-            $table->integer('bowlerextra');
+            $table->string('over');
+            $table->string('run');
+            $table->longtext('commentary');
             $table->timestamps();
         });
     }
@@ -36,6 +31,6 @@ class CreateOverTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('overs');
+        Schema::dropIfExists('commentaries');
     }
 }

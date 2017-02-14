@@ -11,8 +11,11 @@
     <title>@yield('title')</title>
 
     <!-- Styles -->
+
     <link href="/css/app.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/mystyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/navdesign.css">
+
 
     <!-- Scripts -->
     <script>
@@ -20,10 +23,11 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-static-top navbar-fixed-top mynav">
             <div class="container">
                 <div class="navbar-header">
 
@@ -44,18 +48,19 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
+                            <li><a href="{{ url('/login') }}" >Login</a></li>
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a href="#" class="dropdown-toggle customColor" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -78,6 +83,7 @@
                 </div>
             </div>
         </nav>
+        
 
         @yield('content')
         <div class="footer">
@@ -87,5 +93,6 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    
 </body>
 </html>

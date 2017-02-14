@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Bowler;
-class AddBowlerController extends Controller
+use App\Rating;
+use App\Over;
+use App\Player;
+use App\Batsmenrecord;
+use App\Bowlerrecord;
+
+class RatingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,34 +37,9 @@ class AddBowlerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$mid,$inngs)
+    public function store(Request $request)
     {
-        $cap = Bowler::where('match_id',$mid)->where('innings',$inngs)->where('cap',$request->bowlername)->get()->first();
-        $bowler = new Bowler;
-        if(Bowler::where('match_id',$mid)->where('innings',$inngs)->where('cap',$request->bowlername)->exists()){
-            $cap->onStrike = 1;
-            $cap->save();
-            return redirect()->back();
-        }else{
-            
-            $bowler->match_id = $mid;
-            $bowler->innings = $inngs;
-            $bowler->cap = $request->bowlername;
-            $bowler->run = 0;
-            $bowler->over = 0;
-            $bowler->economy = 0;
-            $bowler->fours = 0;
-            $bowler->sixs = 0;
-            $bowler->isActive = 1;
-            $bowler->onStrike = 1;
-            $bowler->ball = 0;
-            $bowler->extra = 0;
-            $bowler->save();
-
-            return redirect()->back();
-        }
-        
-
+        //
     }
 
     /**
