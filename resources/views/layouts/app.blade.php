@@ -11,11 +11,10 @@
     <title>@yield('title')</title>
 
     <!-- Styles -->
-
+    
     <link href="/css/app.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/css/mystyle.css">
-    <link rel="stylesheet" type="text/css" href="/css/navdesign.css">
-
+    
+    @yield('styles')
 
     <!-- Scripts -->
     <script>
@@ -48,6 +47,9 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+                        <li><a href="/cricblog">Cric-Blog</a></li>
+                        <li><a href="/cricnews">Cric-News</a></li>
+                        <li><a href="/aboutus">About us</a></li>
                         
                         
                     </ul>

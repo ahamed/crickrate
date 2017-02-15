@@ -1,4 +1,11 @@
-@extends('layouts.app') @section('title','Control panel') @section('content')
+@extends('layouts.app') 
+@section('title','Control panel') 
+@section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/navdesign.css">
+    <link rel="stylesheet" href="/css/animate.css">
+@endsection
+@section('content')
 <div class="container" id="myContainer">
     <div class="row score affix">
         @if($pitch >= 2)
@@ -37,16 +44,16 @@
                 <!-- Modal -->
                 <form method="post" action="/add-player/{{$mid}}/{{$inngs}}">
                     {!! csrf_field() !!}
-                    <div class="modal fade" id="batsmanModal" tabindex="999" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal animated rollIn" id="batsmanModal" tabindex="999" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Add a Batsman</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: white;">&times;</span></button>
+                                    <h1 class="modal-title" id="myModalLabel">Add a Batsman</h1>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <select class="form-control" name="playername" required>
+                                        <select class="form-control modal-dropdown" name="playername" required>
                                             <option value="">Select a player</option>
                                             @foreach($batsmen as $batsman)
                                             <option value="{{$batsman->playername}}">{{$batsman->playername}}</option>
@@ -56,8 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Add Batsman</button>
+                                    <button type="submit" class="btn btn-modal center-block">Add Batsman</button>
                                 </div>
                             </div>
                         </div>
@@ -127,26 +133,25 @@
                             <td>{{number_format(($bat->rating + (($bat->run / $bat->ball)*0.01)),4,'.','')}}</td>
                             @endif
                             <td><a href="">E</a>/<a href="/delete/{{$bat->id}}">D</a>/
-                                
                                 <!-- Button trigger modal -->
-                                <a type="button" href=""  data-toggle="modal" data-target="#myModal{{$bat->id}}">
+                                <a type="button" href="" data-toggle="modal" data-target="#myModal{{$bat->id}}">
                                     out
                                 </a>
                             </td>
-                            <div class="modal fade" id="myModal{{$bat->id}}" tabindex="" role="dialog" aria-labelledby="myModalLabel" style="z-index: 9999;">
+                            <div class="modal animated rollIn" id="myModal{{$bat->id}}" tabindex="" role="dialog" aria-labelledby="myModalLabel" style="z-index: 9999;">
                                 <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel">How the batsman out?</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div id="form-group">
-                                                <form action="/out/{{$bat->id}}/{{$mid}}/{{$inngs}}" method="POST">
-                                                    {{csrf_field()}}
+                                    <form action="/out/{{$bat->id}}/{{$mid}}/{{$inngs}}" method="POST">
+                                        {{csrf_field()}}
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h1 class="modal-title" id="myModalLabel">How the batsman out?</h1>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div id="form-group">
                                                     <div class="form-group">
                                                         <label class="radio-inline">
-                                                            <input  type="radio" name="out" value="b"> Bowled
+                                                            <input type="radio" name="out" value="b"> Bowled
                                                         </label>
                                                         <label class="radio-inline">
                                                             <input type="radio" name="out" value="c"> Catch
@@ -162,7 +167,7 @@
                                                         </label>
                                                     </div>
                                                     <div class="form-group " id="outHelper">
-                                                        <select class="form-control" name="helpername" required>
+                                                        <select class="form-control modal-dropdown" name="helpername" required>
                                                             <option value="">Select a player</option>
                                                             <option value="no">No Helper</option>
                                                             @foreach($bowlers as $bowler)
@@ -170,15 +175,13 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        <button type="submit" name="endofplayer" class="btn btn-primary">Out</button>
-                                                    </div>
-                                                </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" name="endofplayer" class="btn btn-modal center-block">Out</button>
                                             </div>
                                         </div>
-                                        
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                             <!-- Out modal write here -->
@@ -235,16 +238,16 @@
                 <!-- Add a bootstrap modal here -->
                 <form method="POST" action="/current-bowler/{{$mid}}/{{$inngs}}">
                     {{csrf_field()}}
-                    <div class="modal fade" tabindex="999" role="dialog" id="myModal">
+                    <div class="modal animated rollIn" tabindex="999" role="dialog" id="myModal">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Add A bowler here</h4>
+                                    <h1 class="modal-title">Add A bowler here</h1>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <select class="form-control" name="bowlername" required>
+                                        <select class="form-control modal-dropdown" name="bowlername" required>
                                             <option value="">Select a player</option>
                                             @foreach($bowlers as $bowler)
                                             <option value="{{$bowler->cap}}">{{$bowler->playername}}</option>
@@ -253,8 +256,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="submit" name="addBowler" class="btn btn-primary">Change Bowler</button>
+                                    <button type="submit" name="addBowler" class="btn btn-modal center-block">Change Bowler</button>
                                 </div>
                             </div>
                             <!-- /.modal-content -->
@@ -274,8 +276,8 @@
                     <th>Wicket</th>
                     <th>Economy</th>
                 </tr>
-                @for($i = 0; $i< sizeof($bowlerNames); $i ++) 
-                <tr class="info">
+                @for($i = 0; $i
+                < sizeof($bowlerNames); $i ++) <tr class="info">
                     @if($all_bowlers[$i]->onStrike == 1)
                     <td style="color: red;">{{$bowlerNames[$i]->playername}}<strong style="color: red; font-size: 20px;">*</strong></td>
                     @else
@@ -296,6 +298,11 @@
         $('#out').click(function() {
             $('#outRow').show('slow');
         });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        
     });
     </script>
 </div>

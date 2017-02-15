@@ -1,18 +1,11 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of the routes that are handled
-| by your application. Just tell Laravel the URIs it should respond
-| to using a Closure or controller method. Build something great!
-|
-*/
 
 Auth::routes();
 
+
+
+//Routes for scoreboard and score generation...
 
 Route::get('/scoreboard/{id1}/{id2}/{id3}',['as'=>'display','uses'=>'DisplayController@index']);
 
@@ -45,5 +38,17 @@ Route::post('/current-bowler/{id1}/{id2}','AddBowlerController@store'); // Sotre
 Route::get('/clear/{id1}/{id2}','RunController@clearAll');
 
 
+//Routes for blog 
+Route::get('/write','PostController@create');
+Route::post('/save-story','PostController@store');
+Route::post('/comment/{id}','PostController@storeComments');
+Route::post('/reply/{id1}/{id2}','PostController@storeReplies');
 
 });
+
+
+
+//Route for blog purpose
+Route::get('/cricblog','PostController@index');
+Route::get('/story/{id}','PostController@storyIndex');
+
