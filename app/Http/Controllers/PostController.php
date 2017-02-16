@@ -10,6 +10,7 @@ use Storage;
 use Carbon\Carbon;
 use App\Reply;
 use App\User;
+use Counter;
 
 class PostController extends Controller
 {
@@ -20,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $stories = Post::all();
+        $stories = Post::where('publish',1)->get();
         //return $stories;
         $storagePath  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
         //return $storagePath.'/'.$stories[0]->image;
@@ -40,19 +41,12 @@ class PostController extends Controller
         //return $comment_user;
         $reply_user = Reply::where('post_id',$id)->with('replyes')->get();
         //return $reply_user;
-        
-        
-
-
-        //return $replies;
-        return view('cric-blog.blog.story',compact('stories','contents','comments','replies','comment_user','reply_user'));
+       
+       $count = 232;
+        return view('cric-blog.blog.story',compact('stories','contents','comments','replies','comment_user','reply_user','count'));
     }
 
-    
-    public function custom(Request $request){
-        return $request->all();
-    }
-
+ 
 
     /**
      * Show the form for creating a new resource.
@@ -72,13 +66,54 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $post = new Post;
-        $path = $request->file('picture')->store('pictures');
-        $post->user_id = Auth::user()->id;
-        $post->title = $request->title;
-        $post->post = $request->story;
-        $post->image = $path;
-        $post->caption = $request->caption;
+        /**/
+
+        /*
+        *   check for publishment
+        */
+
+        //Generate keywords
+        $keywords = ['cricket','batting','bowling','filding','catch','bowled','lbw','runout','pitch','over','toss','records','fifty','century','ball','bat','ashes','cricketing','dismiss','team','xi','man','batsman','match','man-of-the-match','six','four','single','double','umpire','icc','bcb','vs','miss','legby'];
+        // to be continue...
+
+        $story = $request->story;
+        $words = explode(" ",$story);
+        $counter = 0;
+
+        for( $i = 0; $i < sizeof($words); $i++){
+            for($j = 0; $j < sizeof($keywords); $j++){
+                if($words[$i] == strtolower($keywords[$j])){
+                    $counter ++;
+                }
+            }
+        }
+        $percent = ($counter * 100) / sizeof($words);
+        
+        if($percent >= 1){
+            $post = new Post;
+            $path = $request->file('picture')->store('pictures');
+            $post->user_id = Auth::user()->id;
+            $post->title = $request->title;
+            $post->post = $request->story;
+            $post->image = $path;
+            $post->caption = $request->caption;
+            $post->viewer = 0;
+            $post->publish = true;
+        }else{
+            $post = new Post;
+            $path = $request->file('picture')->store('pictures');
+            $post->user_id = Auth::user()->id;
+            $post->title = $request->title;
+            $post->post = $request->story;
+            $post->image = $path;
+            $post->caption = $request->caption;
+            $post->viewer = 0;
+            $post->publish = false;
+        }
+        
+
+
+
         $post->save();
         return redirect()->back();
         
@@ -88,12 +123,14 @@ class PostController extends Controller
     public function storeComments(Request $request,$id){
         
         $comment = new Comment;
+        $post = new Post;
 
         $comment->post_id = $id;
         $comment->user_id = Auth::user()->id;
         $comment->comment = $request->comment;
         $comment->save();
         
+
 
         return redirect()->back();
     }

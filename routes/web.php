@@ -38,6 +38,12 @@ Route::post('/current-bowler/{id1}/{id2}','AddBowlerController@store'); // Sotre
 Route::get('/clear/{id1}/{id2}','RunController@clearAll');
 
 
+//Route for profile
+Route::get('/profile/{id}',function(){
+	return view('profile.profile');
+});
+
+
 //Routes for blog 
 Route::get('/write','PostController@create');
 Route::post('/save-story','PostController@store');
@@ -52,3 +58,23 @@ Route::post('/reply/{id1}/{id2}','PostController@storeReplies');
 Route::get('/cricblog','PostController@index');
 Route::get('/story/{id}','PostController@storyIndex');
 
+
+
+//Routes for faq purpose
+Route::get('/ask-question',function(){
+	return view('cric-faq.ask');
+});
+
+Route::get('/cricfaq',function(){
+	return view('cric-faq.home');
+});
+
+
+
+Route::get('/question/{id}',function(){
+	return view('cric-faq.faq');
+});
+
+Route::get('/ask',function(){
+	return view('cric-faq.ask');
+});

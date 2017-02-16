@@ -49,6 +49,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="/cricblog">Cric-Blog</a></li>
                         <li><a href="/cricnews">Cric-News</a></li>
+                        <li><a href="/cricfaq">Cric-FAQ</a></li>
                         <li><a href="/aboutus">About us</a></li>
                         
                         
@@ -67,6 +68,7 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    <li><a href="/profile/{{Auth::user()->id}}">Profile</a></li>
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
@@ -78,6 +80,7 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+
                                 </ul>
                             </li>
                         @endif

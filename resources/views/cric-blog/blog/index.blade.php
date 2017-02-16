@@ -20,6 +20,7 @@
 			<div class="col-md-10">
 				<div class="list-group">
 					@foreach($stories as $story)
+					
 					<div  class="list-group-item list-item">
 						<div class="row">
 							<div class="col-md-4">
@@ -33,7 +34,7 @@
 							</div>
 						</div>
 					</div>
-
+					
 					@endforeach
 				</div>
 	

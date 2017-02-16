@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('title','Write your story')
+@section('title','Ask your Question')
 @section('styles')
 	<link rel="stylesheet" href="/css/animate.css">
-    <link rel="stylesheet" href="/css/blog/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Exo+2|Marcellus|Montserrat+Alternates|Oxygen|Quattrocento|Quicksand|Tangerine|Ubuntu" rel="stylesheet">
+    <link rel="stylesheet" href="/css/faq/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Exo+2|Marcellus|Montserrat+Alternates|Oxygen|Quattrocento|Quicksand|Tangerine|Ubuntu" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/navdesign.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
 
@@ -17,10 +17,10 @@
 			</div>
 			{{-- ends col md 2 --}}
 			<div class="col-md-10">
-				<form action="/save-story" method="POST" enctype="multipart/form-data">
+				<form action="/post/question" method="POST" >
 					{{csrf_field()}}
 					<div class="form-group">
-						<input type="text" class="form-control" name="title" placeholder="Give a title of your story.">
+						<input type="text" class="form-control" name="title" placeholder="Give a title of your question.">
 					</div>
 					<div class="editor-control">
 						<ul class=" editor-nav">
@@ -35,10 +35,7 @@
 						<textarea class="form-control textEditor" name="story" id="story" cols="30" rows="10">Some default text</textarea>
 					</div>
 					<div class="form-group">
-						<label class="btn btn-modal btn-file pull-left">
-						    Browse for picture <small>(optional)</small><input type="file" style="display: none;" name="picture">
-						</label>
-						<input type="text" name="caption" placeholder="Caption for the picture" class="form-control pull-left" style="width: 60%;">
+						<input type="text" name="caption" placeholder="Add tags seperated by COMMA (,)" class="form-control pull-left" style="width: 60%;">
 						<button type="submit" id="postbtn" name="postbtn" class="btn btn-modal pull-right" style="width: 150px;">Save Story</button>
 					</div>
 				</form>
@@ -47,7 +44,7 @@
 			{{-- ends col md 10 --}}
 		</div>
 		{{-- end first row	 --}}
-		<div class="row">
+		<div class="row" style="margin-top: 40px;">
 			<div class="col-md-2">
 				
 			</div>

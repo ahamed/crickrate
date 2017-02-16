@@ -1,6 +1,7 @@
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
 body,html{
 	background-color: rgb(231,76,59);
+	font-family: 'Raleway', sans-serif;
 }
 
 *{
@@ -318,4 +319,37 @@ box-shadow: -4px -4px 45px -3px rgba(255,255,255,0.47);
 
 .btn-circle:hover > span{
 	font-size: 50px;
-5
+}
+
+
+
+/*
+*	 Code section for faq part
+*	 
+*/
+
+.info{
+	text-align: right;
+}
+
+.point{
+	text-align: center;
+	#padding-left: 15px;
+}
+
+.btn-keyword{
+	background: #C21520;
+	margin-right: 5px;
+}
+
+.keyword-wrapper{
+	margin-top: 10px;
+}
+
+.first-row{
+	margin-top: 10px;
+}
+
+#comment{
+	display: none;
+}

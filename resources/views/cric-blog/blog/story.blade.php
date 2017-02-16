@@ -24,7 +24,7 @@
 		{{-- start first row --}}
 		<div class="row">
 			<div class="col-md-2 left-bar">
-				<h1 class="brand">Option Pane</h1>
+				<h4 class="brand">Related Posts</h4>
 				<ul>
 					@foreach($contents as $content)
 					<li><a href="/story/{{$content->id}}">{{$content->title}}</a></li>
@@ -50,7 +50,7 @@
 					<div class="row" id="feature">
 						<div class="col-md-1 col01">
 							<div class="share-icon">
-								<span class="brand">232 Shares</span><hr>
+								<span class="brand">{{$count}} Shares</span><hr>
 
 								<ul class="nav share-nav">
 									<li><a href="#" class="btn btn-link"><span class="fa fa-facebook fa-2x"></span></a></li><hr>
