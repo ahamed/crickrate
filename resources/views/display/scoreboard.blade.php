@@ -56,6 +56,7 @@
                                     <th>4's</th>
                                     <th>6's</th>
                                     <th>S/R</th>
+                                    <th>Rating</th>
                                 </tr>
                                 {{-- get data and display here --}} @foreach( $bats1st as $bat) 
                                 @if($bat->isActive == 1)
@@ -71,6 +72,7 @@
                                     <td>{{$bat->fours}}</td>
                                     <td>{{$bat->sixs}}</td>
                                     <td>{{$bat->sr}}</td>
+                                    <td>{{$bat->rating}}</td>
                                 </tr>
                                 @else
                                 <tr>
@@ -81,6 +83,7 @@
                                     <td>{{$bat->fours}}</td>
                                     <td>{{$bat->sixs}}</td>
                                     <td>{{$bat->sr}}</td>
+                                    <td>{{$bat->rating}}</td>
                                 </tr>
                                 @endif 
                                 {{-- start modal for batsman information --}}
@@ -129,6 +132,7 @@
                                     <th>Maiden</th>
                                     <th>Wicket</th>
                                     <th>Economy</th>
+                                    <th>Rating</th>
                                 </tr>
                                 @for($i = 0; $i
                                 < sizeof($bowlerNames1st); $i ++) <tr class="info">
@@ -142,6 +146,7 @@
                                     <td>{{$all_bowlers1st[$i]->maiden}}</td>
                                     <td>{{$all_bowlers1st[$i]->wicket}}</td>
                                     <td>{{$all_bowlers1st[$i]->economy}}</td>
+                                    <td>{{$all_bowlers1st[$i]->rating}}</td>
                                     </tr>
                                     @endfor
                             </table>

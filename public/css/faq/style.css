@@ -1,6 +1,6 @@
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
 body,html{
-	background-color: rgb(231,76,59);
+	background-color:#E96D6D;
 	font-family: 'Raleway', sans-serif;
 }
 
@@ -105,7 +105,7 @@ blockquote{
 }
 .btn-modal:hover{
 	color: white;
-	background-color: #C21500 !important;
+	background-color: #6D231A !important;
 }
 
 .footer{
@@ -353,3 +353,57 @@ box-shadow: -4px -4px 45px -3px rgba(255,255,255,0.47);
 #comment{
 	display: none;
 }
+
+.highlight{
+	color: lime !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+*testing
+*/
+/* nice one , I like it. But cannot use.
+.fa
+{
+    color:black;
+
+    animation: colorchange1 50s;
+    -webkit-animation: colorchange1 50s
+}
+
+@keyframes colorchange1
+{
+0%   {color: green;}
+15%  {color: orange;}
+30%  {color:purple;}
+45%  {color: #e74c3c;}
+60% {color: violet;}
+75% {color: indigo;}
+90% {color: blue;}
+100% {color: black;}
+}
+
+@-webkit-keyframes colorchange1 /* Safari and Chrome - necessary duplicate */
+/*{
+    0%   {color: green;}
+    15%  {color: orange;}
+    30%  {color:purple;}
+    45%  {color: #e74c3c;}
+    60% {color: violet;}
+    75% {color: indigo;}
+    90% {color: blue;}
+    100% {color: black;}
+
+
+*/

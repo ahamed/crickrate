@@ -89,6 +89,8 @@ class RunController extends Controller
 
 
         $bowlers = Bowlerrecord::where('cap',$currentBowler->cap)->get()->first();
+        $batsmanrecords = Batsmenrecord::where('cap',$striker->cap)->get()->first();
+        //return $batsmanrecords;
         $commentary = new Commentary;
         $overnumber = Bowler::where('match_id',$mid)->where('innings',$inngs)->get()->sum('over');
         $ballnumber = Bowler::where('match_id',$mid)->where('innings',$inngs)->where('onStrike',1)->get()->first()->ball;
@@ -157,6 +159,14 @@ class RunController extends Controller
                 $FR = $pp + $bonus;
                 $striker->rating += $FR;
                 $striker->save();
+
+
+                // Calculate the rating point for bowlers
+                $pp = (3-$run) * (1/36);
+                $bouns = map($batsmanrecords->value * (3-$run), 0, 30, 0, (1/36));
+                $FR = $pp + $bouns;
+                $currentBowler->rating += $FR;
+                $currentBowler->save();
 
             }
 

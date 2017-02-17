@@ -10,14 +10,16 @@
 @endsection
 
 @section('content')
+@include('layouts.faq-menu')
 	<div class="container">
-		<div class="row" style="margin-top: 150px;">
+
+		<div class="row" style="margin-top: 40px;">
 			<div class="col-md-2">
 				
 			</div>
 			{{-- ends col md 2 --}}
 			<div class="col-md-10">
-				<form action="/post/question" method="POST" >
+				<form action="/post-question" method="POST" >
 					{{csrf_field()}}
 					<div class="form-group">
 						<input type="text" class="form-control" name="title" placeholder="Give a title of your question.">
@@ -32,11 +34,11 @@
 					</div>
 					
 					<div class="form-group">
-						<textarea class="form-control textEditor" name="story" id="story" cols="30" rows="10">Some default text</textarea>
+						<textarea class="form-control textEditor" name="question" id="story" cols="30" rows="10"></textarea>
 					</div>
 					<div class="form-group">
-						<input type="text" name="caption" placeholder="Add tags seperated by COMMA (,)" class="form-control pull-left" style="width: 60%;">
-						<button type="submit" id="postbtn" name="postbtn" class="btn btn-modal pull-right" style="width: 150px;">Save Story</button>
+						<input type="text" name="tag" placeholder="Add tags seperated by COMMA (,)" class="form-control pull-left" style="width: 60%;">
+						<button type="submit" id="postbtn" name="postbtn" class="btn btn-modal pull-right" style="width: 150px;">Ask</button>
 					</div>
 				</form>
 					
@@ -112,7 +114,7 @@
 		
 	</script>
 
-	<script language="javascript" type="text/javascript">
+<!--	<script language="javascript" type="text/javascript">
 	    $(function() {
 	       $("form").submit(function(e) {
 	          $.post($(this).attr("action"), // url 
@@ -126,5 +128,7 @@
 	          });
 	       });
 	</script>
-
+	I think this is working.
+	Use this for further use.
+-->
 @endsection

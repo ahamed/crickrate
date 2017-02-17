@@ -18,13 +18,14 @@
 		<div class="row">
 			<div class="col-md-9">
 				<div class="list-group">
-				@for($i = 0 ; $i < 4; $i++)
+				@if(sizeof($questions)>0)
+				@foreach($questions as $que)
 					<div  class="list-group-item list-item">
 						<div class="row">
 							<div class="col-md-2 ">
 								<div class="row">
 									<div class="col-md-12 info">
-										<h4>0 <small>Votes</small></h4>
+										<h4>{{$que->vote}} <small>Votes</small></h4>
 									</div>
 								</div>
 								{{-- end vote row --}}
@@ -43,12 +44,13 @@
 
 							</div>
 							<div class="col-md-10 ">
-								<h4>Question Title</h4>
+								<h4>{{$que->title}}</h4>
 								<hr>
-								<p>Portion of the question[...]</p>
-								<a href="/question/1" class="btn btn-modal">Read more</a>
+								<p>{{substr($que->question,0,300)}}</p>
+								<a href="/question/{{$que->id}}" class="btn btn-modal">Read more</a>
 								<div class="keyword-wrapper">
-									<a href="#" class="btn btn-keyword ">Keyword1</a><a href="#" class="btn btn-keyword">Keyword2</a><a href="#" class="btn btn-keyword">Keyword3</a>	
+
+									<a href="#" class="btn btn-modal ">Keyword1</a><a href="#" class="btn btn-modal">Keyword2</a><a href="#" class="btn btn-modal">Keyword3</a>	
 								</div>
 								
 							</div>
@@ -56,7 +58,11 @@
 						</div>
 					</div>
 					{{-- end the list-group-item --}}
-					@endfor
+					@endforeach
+					@else
+					<h4 class="brand">No Question found</h4>
+
+					@endif
 					
 			
 				</div>

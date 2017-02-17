@@ -43,12 +43,19 @@ Route::get('/profile/{id}',function(){
 	return view('profile.profile');
 });
 
+Route::get('/predict','PredictionController@index');
+
 
 //Routes for blog 
 Route::get('/write','PostController@create');
 Route::post('/save-story','PostController@store');
 Route::post('/comment/{id}','PostController@storeComments');
 Route::post('/reply/{id1}/{id2}','PostController@storeReplies');
+
+// Routes for faq
+Route::post('/post-question','FaqController@store');
+Route::post('/answer/{id}','FaqController@answer');
+Route::post('/answer-comment/{id1}/{id2}','FaqController@answerComment');
 
 });
 
@@ -61,19 +68,11 @@ Route::get('/story/{id}','PostController@storyIndex');
 
 
 //Routes for faq purpose
-Route::get('/ask-question',function(){
-	return view('cric-faq.ask');
-});
-
-Route::get('/cricfaq',function(){
-	return view('cric-faq.home');
-});
+Route::get('/cricfaq','FaqController@index');
 
 
 
-Route::get('/question/{id}',function(){
-	return view('cric-faq.faq');
-});
+Route::get('/question/{id}','FaqController@show');
 
 Route::get('/ask',function(){
 	return view('cric-faq.ask');

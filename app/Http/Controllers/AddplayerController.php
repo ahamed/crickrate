@@ -134,7 +134,11 @@ class AddplayerController extends Controller
         $batsman = new Batsman;
         $batsman->match_id = $mid;
         $batsman->innings = $inngs;
-        $batsman->name = $request->playername;
+        $playerinfo = $request->playername;
+        $playerinfo = explode(',', $playerinfo);
+        
+        $batsman->cap = $playerinfo[0];
+        $batsman->name = $playerinfo[1];
         $batsman->run = 0;
         $batsman->ball = 0;
         $batsman->sr = 0.0;
@@ -304,7 +308,7 @@ class AddplayerController extends Controller
         if($whout->ball == 0){
             $whout->rating = 0;
         }else{
-            $whout->rating += ($whout->run / $whout->ball)*0.01;    
+            $whout->rating += ($whout->run / $whout->ball)*0.05;    
         }
         
         $whout->save();
@@ -322,7 +326,7 @@ class AddplayerController extends Controller
             $striker->runflag = 2;
         }elseif( $striker->run >= 100 && $striker->run<150){
             $striker->runflag = 3;
-        }elseif( $striker->run >= 100 && $striker->run<150){
+        }elseif( $striker->run >= 150 && $striker->run<200){
             $striker->runflag = 4;
         }
 
@@ -336,7 +340,7 @@ class AddplayerController extends Controller
             $striker->rating += $striker->rating * 0.15;
             $striker->runflag = 0;
         }elseif ($striker->runflag == 4) {
-            $striker->rating += $striker->rating * 0.15;
+            $striker->rating += $striker->rating * 0.20;
             $striker->runflag == 0;
         }
         $striker->save();

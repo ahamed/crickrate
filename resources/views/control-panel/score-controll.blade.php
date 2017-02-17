@@ -1,5 +1,5 @@
 @extends('layouts.app'); @section('title','Score Controller index'); @section('content')
-<div class="container">
+<div class="container" style="margin-top: 100px;">
     <div class="row row-content">
         <div class="col-md-8 col-md-offset-2">
             <form action="/score" method="POST">

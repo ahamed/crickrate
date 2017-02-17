@@ -26,6 +26,7 @@ class CreateBowlersTable extends Migration
             $table->integer('sixs');
             $table->boolean('isActive');
             $table->boolean('onStrike');
+            $table->float('rating');
             $table->timestamps();
         });
     }

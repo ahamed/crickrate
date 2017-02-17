@@ -24,17 +24,22 @@
 		
 		<div class="row first-row">
 			<div class="col-md-9">
-				<h3>While fetching Chat History I am Not getting Both user History from Openfire</h3>
+				<h3>{{$resources->title}}</h3>
 				<hr>
 				<div class="row">
 					<div class="col-md-2 point">
 						<a href="#" class="btn"><span class="fa fa-caret-up fa-3x"></span></a><br>
-						<strong class="lead">1200</strong><br>
+						<strong class="lead">{{$resources->vote}}</strong><br>
 						<a href="#" class="btn"><span class="fa fa-caret-down fa-3x"></span></a><br>
-						<a href="#" class="btn"><span class="fa fa-star fa-2x"></span></a>
+						@if($resources->favorit > 0)
+						<a href="#" class="btn" ><i class="fa fa-star fa-2x highlight" ></i></a><br>
+						<a><i>{{$resources->favorit}}</i></a>
+						@else
+						<a href="#" class="btn" ><span class="fa fa-star fa-2x"></span></a>
+						@endif
 					</div>
 					<div class="col-md-10">
-						<p class="lead">We load Google Analytics (Universal) via Google Tag Manager and I can't find any way to force it to load the analytics.js script itself over SSL; we set forceSSL via the fields to set options, but by the time it applies that it has already loaded the initial script over plain HTTP.<br><br>It looks like GTM checks whether it's on an HTTPS URL and then loads GA over HTTP if so, but I'd prefer to force it over HTTPS instead. Is there any way to do this?</p>
+						<p class="lead">{{$resources->question}}</p>
 					</div>
 					{{-- end inner cols --}}
 				</div>
@@ -43,11 +48,13 @@
 					<div class="col-md-2"></div>
 					<div class="col-md-10">
 						<div class="keyword-wrapper">
-							<a href="#" class="btn btn-keyword ">Keyword1</a><a href="#" class="btn btn-keyword">Keyword2</a><a href="#" class="btn btn-keyword">Keyword3</a>	
+							@foreach(explode(',',$resources->tag) as $tag)
+							<a href="#" class="btn btn-keyword ">{{$tag}}</a>
+							@endforeach
 						</div>
 					</div>
 				</div>
-				<div class="row comment-row">
+				<!--<div class="row comment-row">
 					<div class="col-md-2"></div>
 					<div class="col-md-10">
 						<ul class="list-group">
@@ -64,46 +71,66 @@
 						<a href="#" class="btn btn-link" id='addcomment'>Add a comment</a>
 
 					</div>
-				</div>
+				</div>-->
 
 				{{-- end row --}}
-
+				@foreach($answers as $answer)
 				{{-- start answer list --}}
 				<div class="row answer-list">
 					<h3 class="brand">Answers</h3><hr>
 					<div class="col-md-2 point">
 						<a href="#" class="btn"><span class="fa fa-caret-up fa-3x"></span></a><br>
-						<strong class="lead">1200</strong><br>
+						<strong class="lead">{{$answer->vote}}</strong><br>
 						<a href="#" class="btn"><span class="fa fa-caret-down fa-3x"></span></a><br>
-						<a href="#" class="btn"><span class="fa fa-star fa-2x"></span></a>
+						<a href="#" class="btn" ><span class="fa fa-star fa-2x"></span></a>
 					</div>
 					<div class="col-md-10">
 						<p class="lead">
-							As of Bootstrap 3.0.1 there is a new center-block helper class.<br><br>Reference URL: http://getbootstrap.com/css/#helper-classes-center<br><br>You can still use text-center to center text.<br><br>Demo URL: http://bootply.com/91632<br><br>EDIT As mentioned in the comments, center-block works on column contents and block elements but won't work on the column itself (col-* divs) because Bootstrap uses float. Generally, the preferred method of centering columns is to use the Bootstrap grid and offsets like this..<br><br>Bootstrap 3.x centering examples<br><br>Bootstrap 4.x centering examples<br><br><b>UPDATE</b><br><br>In Bootstrap 4, center-block is replaced by mx-auto
+							{{$answer->answer}}
 						</p>
+
+						<div class="answer-profile">
+							<h6 class="lead">{{$answer->user_id}} at <small>{{$answer->created_at}}</small></h6>
+						</div>
 						{{-- add comment row for each answers --}}
 						<div class="row comment-row">
 							<h5 class="brand">Comments</h5><hr>
-							<div class="col-md-12">
-								<ul class="list-group">
-									<li class="list-group-item">Comment 1</li>
-									<li class="list-group-item">Comment 2</li>
-									<li class="list-group-item">Comment 3</li>
-									<li class="list-group-item">Comment 4</li>
-								</ul>
-								<div class="form-group" id="comment">
-									<textarea  id="" name="comment" class="form-control" rows="6"></textarea>
-									<input type="button" class="btn btn-modal" value="Add Comment" style="margin-top: 5px;">	
-								</div>
-								
-								<a href="#" class="btn btn-link" id='addcomment'>Add a comment</a>
+							@foreach($answer_comments as $comment)
+							@if($comment->question_id == $answer->id)
+								<div class="replyer">
+									<h6 class="brand replyer">
+										
+										<a href="#">{{$comment->user_id}}</a>  <small>on {{\Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$comment->created_at)->format('l jS \\of F Y h')}}</small>
 
-							</div>
+										
+									</h6>
+								</div>
+								<div class="reply-content">
+									<p>{!! $comment->comment !!}</p>
+								</div>
+								@endif
+								@endforeach
+								<hr>
+								
+								<form action="/answer-comment/{{$resources->id}}/{{$answer->id}}" method="POST">
+									{{csrf_field()}}
+									<div class="form-group">
+										<input type="text" name="anscomment" placeholder="Reply and hit return" class="form-control reply">
+										<input type="submit" name="go" class="hidden">
+									</div>
+								</form>
+								
+								
 						</div>
+						
 
 						{{-- end comment row  for each answer --}}
 					</div>
+
+
 				</div>
+				@endforeach
+				{{-- end  answer section here --}}
 
 			</div>
 			{{-- end col-md-9 --}}
@@ -124,7 +151,7 @@
 					<div class="col-md-8">
 						<hr>
 						<h2 class="brand">Your Answer</h2>
-						<form action="/comment/1" method="POST">
+						<form action="/answer/{{$resources->id}}" method="POST">
 							{{csrf_field()}}
 							<div class="form-group">
 								<textarea name="answer" id="answer" cols="30" rows="10" class="form-control"></textarea>

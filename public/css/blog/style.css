@@ -1,6 +1,6 @@
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
 body,html{
-	background-color: rgb(231,76,59);
+	background-color:#E96D6D;
 }
 
 *{
@@ -104,7 +104,7 @@ blockquote{
 }
 .btn-modal:hover{
 	color: white;
-	background-color: #C21500 !important;
+	background-color: #6D231A !important;
 }
 
 .footer{

@@ -56,7 +56,7 @@
                                         <select class="form-control modal-dropdown" name="playername" required>
                                             <option value="">Select a player</option>
                                             @foreach($batsmen as $batsman)
-                                            <option value="{{$batsman->playername}}">{{$batsman->playername}}</option>
+                                            <option value="{{$batsman->cap.','.$batsman->playername}}">{{$batsman->playername}}</option>
                                             @endforeach
                                         </select>
                                         <!--<input type="submit" name="add" value="add" class="btn btn-primary">    -->
